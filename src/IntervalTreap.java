@@ -72,7 +72,22 @@ public class IntervalTreap
      */
     public Node intervalSearch(Interval i)
     {
-        return null;
+        // Begin search at root Node
+        Node x = this.getRoot();
+
+        while (x != null && !i.overlaps(x.getInterv()))
+        {
+            if (x.getLeft() != null && x.getLeft().getIMax() >= i.getLow())
+            {
+                x = x.getLeft();
+            }
+            else
+            {
+                x = x.getRight();
+            }
+        }
+
+        return x;
     }
 
     /**

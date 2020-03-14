@@ -34,4 +34,14 @@ public class Interval
     {
         return high;
     }
+
+    /**
+     * Check if a given Interval overlaps this Interval
+     * @param i the Interval to compare with
+     * @return true if the Intervals overlap, false otherwise
+     */
+    public boolean overlaps(Interval i)
+    {
+        return this.getLow() <= i.getHigh() && this.getHigh() >= i.getLow();
+    }
 }
