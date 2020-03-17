@@ -13,6 +13,11 @@ public class Interval
      */
     public Interval(int low, int high)
     {
+        if (low > high)
+        {
+            throw new Error("Low interval value must be less than or equal to high value");
+        }
+
         this.low = low;
         this.high = high;
     }
@@ -43,5 +48,20 @@ public class Interval
     public boolean overlaps(Interval i)
     {
         return this.getLow() <= i.getHigh() && this.getHigh() >= i.getLow();
+    }
+
+    /**
+     * Check if a given Interval is equal to this Interval
+     * @param i the interval to compare with
+     * @return true if the Intervals are equal, false otherwise
+     */
+    public boolean equals(Interval i)
+    {
+        return this.getLow() == i.getLow() && this.getHigh() == i.getHigh();
+    }
+
+    public String toString()
+    {
+        return String.format("[%d, %d]", this.getLow(), this.getHigh());
     }
 }
