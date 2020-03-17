@@ -1,7 +1,7 @@
 # Interval Treap
 ### COM S 311 // Programming Project 1
 **Due:** 2020.03.29 23:59
-## Complete JavaDoc can be found (here)[https://dev.astrelion.com/COMS311-Project1/package-summary.html]
+## Complete JavaDoc can be found [here](https://dev.astrelion.com/COMS311-Project1/package-summary.html)
 ## Required Implementations
 *The following are all items that **are implemented** that were __required__ for this project
 ### Interval
