@@ -3,7 +3,7 @@
 **Due:** 2020.03.29 23:59  
 **SDK Version:** 13.0.1  
 **JUnit Version:** 4  
-**JavaDoc:** https://dev.astrelion.com/COMS311-Project1/package-summary.html
+**JavaDoc:** https://dev.astrelion.com/COMS311-Project1/package-summary.html  
 **Repository:** https://github.com/ASTRELION/COMS311-Project1
 ## Complete JavaDoc can be found [HERE](https://dev.astrelion.com/COMS311-Project1/package-summary.html)
 ## Required Implementations
