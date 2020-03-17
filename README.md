@@ -1,6 +1,7 @@
 # Interval Treap
 ### COM S 311 // Programming Project 1
 **Due:** 2020.03.29 23:59
+## Complete JavaDoc can be found (here)[https://dev.astrelion.com/COMS311-Project1/package-summary.html]
 ## Required Implementations
 *The following are all items that **are implemented** that were __required__ for this project
 ### Interval
@@ -17,8 +18,16 @@
 - `int getPriority()`
 ### IntervalTreap
 - `IntervalTreap()`
+- `Node getRoot()`
+- `int getSize()`
+- `int getHeight()`
+- `void intervalInsert(Node)`
+- `void intervalDelete(Node)`
+- `Node intervalSearch(Interval)`
 ## Optional Implementations
-*The following are all items that **are implemented** that were __optional__ for this project
+*The following are all items that **are implemented** that were __optional__ for this project*
+- `Node intervalSearchExactly(Interval)`
+- `List<Interval> overlappingIntervals(Interval)`
 ## Auxiliary  Implementations
 *The following are all items that **are implemented** that were added by myself to provide
 assistance for other functions, extra functionality, or just things I thought would be fun 
