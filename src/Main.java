@@ -5,7 +5,7 @@ import java.util.Random;
  * Due: 2020.03.29 23:59
  * 100 points + 15 extra credit
  * @author Ashton Nelson
- * https://github.com/ASTRELION/COMS311-Project1
+ * https://github.com/ASTRELION/COMS311-Project1 (private)
  */
 public class Main
 {
@@ -41,9 +41,6 @@ public class Main
         treap.intervalInsert(n7);
 
         System.out.println(treap);
-
-        IntervalTreap treap2 = generateRandomTreap(15);
-        System.out.println(treap2);
     }
 
     private static IntervalTreap generateRandomTreap(int n)

@@ -221,4 +221,18 @@ public class Node
     {
         return String.valueOf(this.key());
     }
+
+    /**
+     * Check if this Node is equal to another Node. Two
+     * Nodes are considered equal if their Interval is the
+     * same and their iMax values are equal
+     * @param node the other Node to check with
+     * @return true if the Nodes are equal, false otherwise
+     */
+    public boolean equals(Node node)
+    {
+        return
+            this.getInterv().equals(node.getInterv()) &&
+            this.getIMax() == node.getIMax();
+    }
 }

@@ -151,19 +151,22 @@ public class IntervalTreap
         else if (z.key() < y.key())
         {
             y.setLeft(z);
-
-            while (z != this.getRoot() && z.getPriority() < z.getParent().getPriority())
-            {
-                rightRotate(z.getParent());
-            }
         }
         else
         {
             y.setRight(z);
+        }
 
-            while (z != this.getRoot() && z.getPriority() < z.getParent().getPriority())
+        // Rotate up the tree to satisfy priority
+        while (z != this.getRoot() && z.getPriority() < z.getParent().getPriority())
+        {
+            if (z.getParent().getLeft() == z)
             {
-                leftRotate(z.getParent());
+                this.rightRotate(z.getParent());
+            }
+            else if (z.getParent().getRight() == z)
+            {
+                this.leftRotate(z.getParent());
             }
         }
 
@@ -327,5 +330,41 @@ public class IntervalTreap
             this.getHeight(),
             getTreeString(this.root, 0)
         );
+    }
+
+    private boolean equalsRecursive(Node x, Node y)
+    {
+        if (x != null)
+        {
+            if (x.equals(y))
+            {
+                if (x.getLeft() != null)
+                {
+                    return equalsRecursive(x.getLeft(), y.getLeft());
+                }
+
+                if (x.getRight() != null)
+                {
+                    return equalsRecursive(x.getRight(), y.getRight());
+                }
+            }
+        }
+        else if (y == null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if this Treap is equal to another Treap.
+     * Two Treaps are "equal" if all nodes appear in the
+     * same order and have the same Interval
+     * @return true if the Treaps are equal, false otherwise
+     */
+    public boolean equals(IntervalTreap treap)
+    {
+        return equalsRecursive(this.getRoot(), treap.getRoot());
     }
 }
