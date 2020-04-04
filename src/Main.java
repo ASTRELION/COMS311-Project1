@@ -14,6 +14,13 @@ public class Main
         System.out.println("COM S 311 // Programming Project 1");
         System.out.println("---");
 
+        Node newNode = new Node(new Interval(37, 49));
+        Node otherNode = newNode;
+
+        System.out.println(newNode + " " + otherNode);
+        otherNode.setInterv(new Interval(38, 49));
+        System.out.println(newNode + " " + otherNode);
+
         IntervalTreap treap = new IntervalTreap();
 
         Interval i1 = new Interval(4, 8);
@@ -40,6 +47,9 @@ public class Main
         treap.intervalInsert(n6);
         treap.intervalInsert(n7);
 
+        System.out.println(treap);
+
+        treap.intervalDelete(n5);
         System.out.println(treap);
     }
 

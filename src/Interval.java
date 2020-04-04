@@ -28,7 +28,7 @@ public class Interval
      */
     public int getLow()
     {
-        return low;
+        return this.low;
     }
 
     /**
@@ -37,7 +37,7 @@ public class Interval
      */
     public int getHigh()
     {
-        return high;
+        return this.high;
     }
 
     /**

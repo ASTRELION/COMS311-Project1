@@ -7,8 +7,13 @@ import java.util.Random;
  */
 public class Node
 {
-    private static List<Integer> invalidPriorities = new ArrayList<>();
-    private static final int PRIORITY_MAX = Integer.MAX_VALUE;
+    /**
+     * List of all currently used priorities.
+     * Used by generatePriority() so that no duplicates
+     * are made.
+     */
+    protected static List<Integer> invalidPriorities = new ArrayList<>();
+    protected static final int PRIORITY_MAX = Integer.MAX_VALUE;
 
     private Node parent;
     private Node leftChild;
@@ -17,6 +22,7 @@ public class Node
     private Interval interval;
     private int priority;
     private int iMax;
+    private int height;
 
     /**
      * Create a new Node with given Interval
@@ -26,6 +32,7 @@ public class Node
     public Node(Interval i)
     {
         this.interval = i;
+        this.height = 0;
         this.iMax = i.getHigh();
         this.parent = null;
         this.leftChild = null;
@@ -48,7 +55,7 @@ public class Node
      */
     public Node getParent()
     {
-        return parent;
+        return this.parent;
     }
 
     /**
@@ -140,7 +147,7 @@ public class Node
      */
     public Interval getInterv()
     {
-        return interval;
+        return this.interval;
     }
 
     /**
@@ -150,7 +157,7 @@ public class Node
      */
     public void setInterv(int low, int high)
     {
-        setInterv(new Interval(low, high));
+        this.setInterv(new Interval(low, high));
     }
 
     /**
@@ -168,7 +175,7 @@ public class Node
      */
     public int getIMax()
     {
-        return iMax;
+        return this.iMax;
     }
 
     /**
@@ -181,12 +188,72 @@ public class Node
     }
 
     /**
+     * Update the iMax of this Node so that it is the max of
+     * its Interval high and its children's iMax values
+     */
+    public void updateIMax()
+    {
+        int xMax = this.getInterv().getHigh();
+
+        if (this.getLeft() != null)
+        {
+            xMax = Math.max(xMax, this.getLeft().getIMax());
+        }
+
+        if (this.getRight() != null)
+        {
+            xMax = Math.max(xMax, this.getRight().getIMax());
+        }
+
+        this.setIMax(xMax);
+    }
+
+    /**
+     * Get the height of this Node
+     * @return the height of this Node
+     */
+    public int getHeight()
+    {
+        return this.height;
+    }
+
+    /**
+     * Set the height of this node
+     * @param height the height to set
+     */
+    public void setHeight(int height)
+    {
+        this.height = height;
+    }
+
+    /**
+     * Update the height of this Node so that it is 1 + the max height
+     * of its children
+     */
+    public void updateHeight()
+    {
+        int height = 0;
+
+        if (this.getLeft() != null)
+        {
+            height = Math.max(height, this.getLeft().getHeight() + 1);
+        }
+
+        if (this.getRight() != null)
+        {
+            height = Math.max(height, this.getRight().getHeight() + 1);
+        }
+
+        this.setHeight(height);
+    }
+
+    /**
      * Get the priority of this Node
      * @return the priority of this Node
      */
     public int getPriority()
     {
-        return priority;
+        return this.priority;
     }
 
     /**
