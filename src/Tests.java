@@ -15,6 +15,9 @@ import static org.junit.Assert.*;
  * Tests would usually be in another package but
  * since the project uses the default Java package
  * as requested we must include tests here
+ *
+ * _ before each method name ensures it runs BEFORE the
+ * deletion tests.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) // force tests to run alphabetically
 public class Tests
@@ -24,21 +27,29 @@ public class Tests
     private static String mediumPath = "testInputs/medium_1.txt";
     private static String largePath = "testInputs/large_1.txt";
 
+    // Small input structures
     private static IntervalTreap smallTreap = new IntervalTreap();
     private static List<Node> smallNodes = new ArrayList<>();
     private static List<Interval> smallPositives = new ArrayList<>();
     private static List<Interval> smallNegatives = new ArrayList<>();
 
+    // Medium input structures
     private static IntervalTreap mediumTreap = new IntervalTreap();
     private static List<Node> mediumNodes = new ArrayList<>();
     private static List<Interval> mediumPositives = new ArrayList<>();
     private static List<Interval> mediumNegatives = new ArrayList<>();
 
+    // Large input structures
     private static IntervalTreap largeTreap = new IntervalTreap();
     private static List<Node> largeNodes = new ArrayList<>();
     private static List<Interval> largePositives = new ArrayList<>();
     private static List<Interval> largeNegatives = new ArrayList<>();
 
+    /**
+     * Reads the positive test cases from file
+     * @param input the Scanner to read from
+     * @return a list of positive Intervals
+     */
     private static List<Interval> readPositives(Scanner input)
     {
         List<Interval> intervals = new ArrayList<>();
@@ -65,6 +76,11 @@ public class Tests
         return intervals;
     }
 
+    /**
+     * Reads the negative test cases from file
+     * @param input the Scanner to read from
+     * @return a list of negative Intervals
+     */
     private static List<Interval> readNegatives(Scanner input)
     {
         List<Interval> intervals = new ArrayList<>();
@@ -90,6 +106,11 @@ public class Tests
         return intervals;
     }
 
+    /**
+     * Reads the nodes from file
+     * @param input the Scanner to read from
+     * @return a list of Nodes
+     */
     private static List<Node> readNodes(Scanner input)
     {
         List<Node> nodes = new ArrayList<>();
@@ -108,6 +129,66 @@ public class Tests
         return nodes;
     }
 
+    /**
+     * Test Treap starting at Node x
+     * Validates Treap order properties
+     * @param x Node to start from
+     */
+    private void _testStructureRecursive(Node x)
+    {
+        if (x != null)
+        {
+            if (x.getLeft() != null)
+            {
+                assertTrue(x.getLeft().getPriority() > x.getPriority());
+                assertTrue(x.getLeft().key() < x.key());
+                assertTrue(x.getLeft().getIMax() <= x.getIMax());
+                assertTrue(x.getLeft().getHeight() < x.getHeight());
+            }
+
+            if (x.getRight() != null)
+            {
+                assertTrue(x.getRight().getPriority() > x.getPriority());
+                assertTrue(x.getRight().key() >= x.key());
+                assertTrue(x.getRight().getIMax() <= x.getIMax());
+                assertTrue(x.getRight().getHeight() < x.getHeight());
+            }
+
+            if (x.getLeft() != null && x.getRight() != null)
+            {
+                int iMax = x.getInterv().getHigh();
+                iMax = Math.max(iMax, x.getLeft().getIMax());
+                iMax = Math.max(iMax, x.getRight().getIMax());
+                assertEquals(iMax, x.getIMax());
+                assertEquals(Math.max(x.getLeft().getHeight() + 1, x.getRight().getHeight() + 1), x.getHeight());
+            }
+            else if (x.getLeft() != null)
+            {
+                assertEquals(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getIMax());
+                assertEquals(x.getLeft().getHeight() + 1, x.getHeight());
+            }
+            else if (x.getRight() != null)
+            {
+                assertEquals(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()), x.getIMax());
+                assertEquals(x.getRight().getHeight() + 1, x.getHeight());
+            }
+            else
+            {
+                assertEquals(x.getInterv().getHigh(), x.getIMax());
+                assertEquals(0, x.getHeight());
+            }
+
+            _testStructureRecursive(x.getLeft());
+            _testStructureRecursive(x.getRight());
+        }
+    }
+
+    /**
+     * BeforeClass ensures this runs before everything else only once.
+     * Constructs all the structures for each input size by reading in
+     * the files.
+     * @throws FileNotFoundException because file may not be found
+     */
     @BeforeClass
     public static void construct() throws FileNotFoundException
     {
@@ -138,6 +219,10 @@ public class Tests
         for (Node n : largeNodes)
             largeTreap.intervalInsert(n);
     }
+
+    //
+    // TEST POSITIVE AND NEGATIVE TEST CASES FOR intervalSearch()
+    //
 
     @Test
     public void _testSmallInput()
@@ -205,6 +290,10 @@ public class Tests
         _testStructureRecursive(largeTreap.getRoot());
     }
 
+    //
+    // TEST IN-ORDER
+    //
+
     @Test
     public void _testSmallInOrder()
     {
@@ -241,59 +330,9 @@ public class Tests
         }
     }
 
-    /**
-     * Test Treap starting at Node x
-     * Validates Treap order properties
-     * @param x Node to start from
-     */
-    private void _testStructureRecursive(Node x)
-    {
-        if (x != null)
-        {
-            if (x.getLeft() != null)
-            {
-                assertTrue(x.getLeft().getPriority() > x.getPriority());
-                assertTrue(x.getLeft().key() < x.key());
-                assertTrue(x.getLeft().getIMax() <= x.getIMax());
-                assertTrue(x.getLeft().getHeight() < x.getHeight());
-            }
-
-            if (x.getRight() != null)
-            {
-                assertTrue(x.getRight().getPriority() > x.getPriority());
-                assertTrue(x.getRight().key() >= x.key());
-                assertTrue(x.getRight().getIMax() <= x.getIMax());
-                assertTrue(x.getRight().getHeight() < x.getHeight());
-            }
-
-            if (x.getLeft() != null && x.getRight() != null)
-            {
-                int iMax = x.getInterv().getHigh();
-                iMax = Math.max(iMax, x.getLeft().getIMax());
-                iMax = Math.max(iMax, x.getRight().getIMax());
-                assertEquals(iMax, x.getIMax());
-                assertEquals(Math.max(x.getLeft().getHeight() + 1, x.getRight().getHeight() + 1), x.getHeight());
-            }
-            else if (x.getLeft() != null)
-            {
-                assertEquals(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getIMax());
-                assertEquals(x.getLeft().getHeight() + 1, x.getHeight());
-            }
-            else if (x.getRight() != null)
-            {
-                assertEquals(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()), x.getIMax());
-                assertEquals(x.getRight().getHeight() + 1, x.getHeight());
-            }
-            else
-            {
-                assertEquals(x.getInterv().getHigh(), x.getIMax());
-                assertEquals(0, x.getHeight());
-            }
-
-            _testStructureRecursive(x.getLeft());
-            _testStructureRecursive(x.getRight());
-        }
-    }
+    //
+    // TEST THE STRUCTURE OF EACH TREAP
+    //
 
     @Test
     public void _testSmallStructure()
@@ -312,6 +351,10 @@ public class Tests
     {
         _testStructureRecursive(largeTreap.getRoot());
     }
+
+    //
+    // TEST overlappingIntervals() EXTRA CREDIT
+    //
 
     @Test
     public void _testSmallOverlappingIntervals()
@@ -376,6 +419,10 @@ public class Tests
         }
     }
 
+    //
+    // TEST DELETION
+    //
+
     @Test
     public void testSmallDelete()
     {
@@ -426,6 +473,10 @@ public class Tests
         assertEquals(0, largeTreap.getHeight());
         assertEquals(0, largeTreap.getSize());
     }
+
+    //
+    // TEST intervalSearchExactly() EXTRA CREDIT
+    //
 
     @Test
     public void _testSmallExactly()
@@ -514,6 +565,13 @@ public class Tests
         }
     }
 
+    //
+    // TEST CLASSES & METHODS
+    //
+
+    /**
+     * Tests minimum()
+     */
     @Test
     public void _testSmallIntervalTreapMinimum()
     {

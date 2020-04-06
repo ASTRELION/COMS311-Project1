@@ -209,14 +209,6 @@ public class IntervalTreap
             y.updateHeight();
         }
 
-        Node t = z;
-        while (t != null)
-        {
-            t.updateIMax();
-            t.updateHeight();
-            t = t.getParent();
-        }
-
         // Rotate up the tree to satisfy priority
         while (z != this.getRoot() && z.getPriority() < z.getParent().getPriority())
         {
@@ -236,8 +228,9 @@ public class IntervalTreap
         }
 
         // Update remaining heights, if needed
-        // Bounded by height of the tree
-        t = z;
+        // Bounded by height of the tree above
+        // where z was inserted
+        Node t = z;
         while (t != null)
         {
             t.updateIMax();

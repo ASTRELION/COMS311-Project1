@@ -2,10 +2,10 @@ import java.util.Random;
 
 /**
  * COM S 311 Programming Project 1
- * Due: 2020.03.29 23:59
+ * Due: 2020.04.05 23:59
  * 100 points + 15 extra credit
  * @author Ashton Nelson
- * https://github.com/ASTRELION/COMS311-Project1 (private)
+ * https://github.com/ASTRELION/COMS311-Project1 (private until after submission)
  */
 public class Main
 {
